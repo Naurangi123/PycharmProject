@@ -1,0 +1,6 @@
+
+Stock No
+1	 Medicine Name			Price			QTY			SGST			CGST			HSN No.		Item Name
+	     																		
+	     JBVX BH			76			98			34			23			98			NHVJV
+	     JHKH			45			98			65			12			56			MNV,H

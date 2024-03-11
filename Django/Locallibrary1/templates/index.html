@@ -1,0 +1,27 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block head %}
+  <!-- Include CSS file -->
+  <link rel="stylesheet" href="{% static './css/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<h1 class="heading">Local Library Home</h1>
+
+	<h2 class="heading">Dynamic content</h2>
+	<p id="h">The library has the following record counts:</p>
+	<div class="main">
+	<ul>
+	<li><strong>Books:</strong> {{ num_books }}</li>
+	<li><strong>Copies:</strong> {{ num_instances }}</li>
+	<li><strong>Copies available:</strong> {{ num_instances_available }}</li>
+	<li><strong>Authors:</strong> {{ num_authors }}</li>
+	</ul>
+
+	</div>
+<!--	<p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>-->
+
+</div>
+{% endblock %}

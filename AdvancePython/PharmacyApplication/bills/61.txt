@@ -1,0 +1,17 @@
+
+		 Medicine details
+medicine		Qty		Price		Amount
+JBI		8		4		32
+LJBIHBI		9		6		54
+LK		75		8		600
+BIJB		6		7		42
+J		9		0		0
+BLK		3		8		24
+KJB		42		3		126
+JBJBI		5		6		30
+JBJBI		6		7		42
+LKJBJ		1		2		2
+LK PIUUP		32		4		128
+IJI[OH		5		1		5
+JNJB		8		6		48
+NJNIK		9		74		666

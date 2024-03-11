@@ -1,0 +1,6 @@
+
+Stock No
+44	MedicineName			Price		QTY			SGST			CGST			HSN No.			Item Name
+															
+	;lml		ml m		m l		ml  								
+							ml l 								

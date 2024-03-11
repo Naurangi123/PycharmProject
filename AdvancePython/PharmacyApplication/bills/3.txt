@@ -1,0 +1,17 @@
+
+		 Medicine details
+medicine		Qty		Price		Amount
+		23		5		115
+		23		8		184
+		6		5		30
+		12		5		60
+		0		0		0
+		0		0		0
+		0		0		0
+		0		0		0
+		0		0		0
+		0		0		0
+		0		0		0
+		0		0		0
+		0		0		0
+		0		0		0

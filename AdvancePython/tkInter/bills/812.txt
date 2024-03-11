@@ -1,0 +1,21 @@
+			Welcome Medical Store 
+Patient name:
+Address:
+DoB:
+Mobile No.:
+Sex:
+Bill No.:812
+Current Date:
+================================
+Medicine
+Name	QTY	Price	Amount
+	0	0	0
+	0	0	0
+	0	0	0
+	0	0	0
+--------------------------------
+Discount:			 Rs.
+CGST:			 Rs.0.00
+SGST:			 Rs.0.00
+-----------------------------------
+Total Bill:			 Rs.0

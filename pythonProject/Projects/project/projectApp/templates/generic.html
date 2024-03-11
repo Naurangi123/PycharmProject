@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block title %}
+      <title>Local Library</title>
+    {% endblock %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous">
+    <!-- Add additional CSS in static file -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/static.css' %}" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-2">
+          {% block sidebar %}
+            <ul class="sidebar-nav">
+              <li><a href="{% url 'book' %}">Main Page</a></li>
+              <li><a href="{% url '%}">All books</a></li>
+              <li><a href="">All authors</a></li>
+            </ul>
+          {% endblock %}
+        </div>
+        <div class="col-sm-10 ">{% block content %}{% endblock %}</div>
+      </div>
+    </div>
+
+	  <h1>Book List</h1>
+	  {% if book_list %}
+		<ul>
+		  {% for book in book_list %}
+		  <li>
+			<a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+			({{book.author}})
+		  </li>
+		  {% endfor %}
+		</ul>
+	  {% else %}
+		<p>There are no books in the library.</p>
+	  {% endif %}
+	  <h1>Title: {{ book.title }}</h1>
+
+	  <p><strong>Author:</strong> <a href="">{{ book.author }}</a></p>
+	  <!-- author detail link not yet defined -->
+	  <p><strong>Summary:</strong> {{ book.summary }}</p>
+	  <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+	  <p><strong>Language:</strong> {{ book.language }}</p>
+	  <p><strong>Genre:</strong> {{ book.genre.all|join:", " }}</p>
+
+	  <div style="margin-left:20px;margin-top:20px">
+		<h4>Copies</h4>
+
+		{% for copy in book.bookinstance_set.all %}
+		  <hr />
+		  <p
+			class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
+			{{ copy.get_status_display }}
+		  </p>
+		  {% if copy.status != 'a' %}
+			<p><strong>Due to be returned:</strong> {{ copy.due_back }}</p>
+		  {% endif %}
+		  <p><strong>Imprint:</strong> {{ copy.imprint }}</p>
+		  <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
+		{% endfor %}
+	  </div>
+
+
+  </body>
+</html>

@@ -1,0 +1,60 @@
+.sidebar-nav {
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+    color:orangered;
+    text-decoration:none
+}
+/* CSS for the sidebar */
+.sidebar {
+  background-color: #00FFFF; /* Background color */
+  padding: 20px; /* Padding around the sidebar */
+}
+
+.sidebar ul {
+  list-style-type: none; /* Remove bullet points from the list */
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 10px; /* Spacing between list items */
+}
+
+.sidebar a {
+  text-decoration: none; /* Remove underline from links */
+  color: #333; /* Link color */
+}
+
+.sidebar a:hover {
+  color: orangered;
+  border-radius:1px solid orangered;/* Link color on hover */
+}
+
+.container{
+	height:40rem;
+	width:65rem;
+	background-color:orangered;
+	border: 1px solid red;
+}
+.heading{
+	display:flex;
+	justify-content:center;
+	place-items:center;
+	padding:10px;
+}
+#h{
+	display:flex;
+	justify-content:center;
+	place-items:center;
+	padding:10px;
+}
+.main{
+	display:flex;
+	justify-content:center;
+	place-items:center;
+	padding:10px;
+}
+.main ul {
+  list-style-type: none; /* Remove bullet points from the list */
+  padding: 0;
+}

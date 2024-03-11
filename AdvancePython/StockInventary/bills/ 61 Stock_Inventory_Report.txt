@@ -1,0 +1,5 @@
+
+Stock No
+61	MedicineName			Price		QTY			SGST			CGST			HSN No.			Item Name
+															
+	dvdsb				dvzd sdvdsfbgfx				fghnfjti						

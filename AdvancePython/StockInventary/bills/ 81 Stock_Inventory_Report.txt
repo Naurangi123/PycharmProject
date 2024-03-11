@@ -1,0 +1,5 @@
+
+Stock No
+81	MedicineName			Price		QTY			SGST			CGST			HSN No.			Item Name
+															
+	,khbhj		mn ,		mn		mnn		mn		,nb		?		
