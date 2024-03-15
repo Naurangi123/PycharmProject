@@ -1,10 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+
+{% extends "base.html" %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<h1>Projects</h1>
+<div class="row">
+{% for data in data %}
+    <div class="col-md-4">
+        <div class="card mb-2">
+            {% if data.image %}
+                <img class="card-img-top" src="{{ data.image.url }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ data.title }}</h5>
+                <p class="card-text">{{ data.descriptions }}</p>
+                <a href="{% url 'project_detail' data.id %}"
+                   class="btn btn-primary">
+                    Read More
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+	<div class="col-md-6 offset-md-3">
+		<h1>Login</h1>
+		<form method="POST" action="{% url 'project' %}">
+			{% csrf_token %}
+			  <div class="mb-3">
+				<input type="text" name="username" class="form-control" placeholder="User name" required>
+			  </div>
+			  <div class="mb-3">
+				<input type="text" name="password" class="form-control" placeholder="Password" required>
+			  </div>
+			  <button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+	</div>
+{% endif %}
+{% endblock %}

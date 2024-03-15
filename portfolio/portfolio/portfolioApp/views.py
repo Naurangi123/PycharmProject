@@ -1,93 +1,106 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import requires_csrf_token
+from django.contrib.auth import authenticate,login,logout
 from .models import Project,Data
+from .forms import SignUpForm,AddRecordForm
 
-
-
-# Create your views here.
-
-def index(request):
-    projects=Data.objects.all()
-    context = {
-        "projects": projects
-    }
-    return render(request, 'index.html', context)
-
-def detail(request,pk):
-    projects=Data.objects.get(pk=pk)
-    context={
-        'projects':projects
-    }
-    return render(request,'detail.html',context)
-
-@requires_csrf_token
-def signup(request):
+#
+#
+# # Create your views here.
+def home(request):
+    records=Project.objects.all()
+    # Check to see if logging in
     if request.method == 'POST':
-        first_name=request.POST['first_name']
-        last_name = request.POST['last_name']
-        email = request.POST['email']
+        username = request.POST['username']
         password = request.POST['password']
-        password2 = request.POST['password2']
-
-        if password == password2:
-            if Project.objects.filter(first_name=first_name).exists():
-                messages.info(request, 'First Name Taken')
-                return redirect('signup')
-            elif Project.objects.filter(last_name=last_name).exists():
-                messages.info(request, 'Last Name Taken')
-                return redirect('signup')
-            elif Project.objects.filter(email=email).exists():
-                messages.info(request, 'Email Taken')
-                return redirect('signup')
-            elif Project.objects.filter(password=password).exists():
-                messages.info(request, 'Password Taken')
-                return redirect('signup')
-            elif Project.objects.filter(password2=password2).exists():
-                messages.info(request, 'Confirm Password Taken')
-                return redirect('signup')
-            else:
-                # user = Project.objects.create_user(email=email, password=password)
-                # user.save()
-
-                # Log user in and redirect to settings page
-                user_login = authenticate(email=email, password=password)
-                login(request, user_login)
-
-                # Create a Profile object for the new user
-        #         new_profile = Project.objects.create(user=user, id_user=user.id)
-        #         new_profile.save()
-        #         return redirect('settings')
-        else:
-            messages.info(request, 'Passwords do not match')
-            return redirect('signup')
-
-    else:
-        return render(request, 'signup.html')
-
-
-@requires_csrf_token
-def signin(request):
-    if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
-
-        user = authenticate(email=email, password=password)
-
+        # Authenticate
+        user = authenticate(request, username=username, password=password)
         if user is not None:
-            login(request, email)
-            return redirect('/')
+            login(request, user)
+            messages.success(request, "You Have Been Logged In!")
+            return redirect('home')
         else:
-            messages.info(request, 'Invalid credentials')
-            return redirect('signin')
-
+            messages.success(request, "There Was An Error Logging In, Please Try Again...")
+            return redirect('home')
     else:
-        return render(request, 'signin.html')
+        return render(request, 'home.html', {'records':records})
 
-@login_required(login_url='signin')
 def logout_user(request):
     logout(request)
-    return redirect('signin')
+    messages.success(request,'You have been logged out')
+    return redirect('home')
+
+def register_user(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Authenticate and login
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, "You Have Successfully Registered! Welcome!")
+            return redirect('home')
+    else:
+        form = SignUpForm()
+        return render(request, 'register.html', {'form': form})
+    return render(request, 'register.html', {'form': form})
+
+def customer_record(request, pk):
+	if request.user.is_authenticated:
+		# Look Up Records
+		customer_record = Project.objects.get(id=pk)
+		return render(request, 'record.html', {'customer_record':customer_record})
+	else:
+		messages.success(request, "You Must Be Logged In To View That Page...")
+		return redirect('home')
+
+
+def delete_record(request,pk):
+	if request.user.is_authenticated:
+		delete_it = Project.objects.get(id=pk)
+		delete_it.delete()
+		messages.success(request, "Record Deleted Successfully...")
+		return redirect('home')
+	else:
+		messages.success(request, "You Must Be Logged In To Do That...")
+		return redirect('home')
+
+
+def add_record(request):
+	form = AddRecordForm(request.POST or None)
+	if request.user.is_authenticated:
+		if request.method == "POST":
+			if form.is_valid():
+				add_record = form.save()
+				messages.success(request, "Record Added...")
+				return redirect('home')
+		return render(request, 'add_record.html', {'form':form})
+	else:
+		messages.success(request, "You Must Be Logged In...")
+		return redirect('home')
+
+def update_record(request, pk):
+	if request.user.is_authenticated:
+		current_record = Project.objects.get(id=pk)
+		form = AddRecordForm(request.POST or None, instance=current_record)
+		if form.is_valid():
+			form.save()
+			messages.success(request, "Record Has Been Updated!")
+			return redirect('project')
+		return render(request, 'add_record.html', {'form':form})
+	else:
+		messages.success(request, "You Must Be Logged In...")
+		return redirect('home')
+
+
+def project(request):
+	data = Data.objects.all()
+	return render(request,'project.html',{'data':data})
+
+def project_detail(request,pk):
+    data=Data.objects.get(id=pk)
+    return render(request,'detail.html',{'data':data})
+
